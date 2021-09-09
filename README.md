@@ -1,34 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Zinio Technical Test: Hire Me Blog
 
-## Getting Started
+Author: Arnau Gómez
+License: MIT
 
-First, run the development server:
+[Link to Node.js Backend](https://github.com/arnaugomez/zinio-test.node)
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- Frontend
+  - Typescript
+  - React
+  - Next.js
+  - Chakra UI
+- Backend
+  - Typescript
+  - Node
+  - Express
+  - Fuzzy search library
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I chose the TypeScript programming language because it has an awesome developer experience, thanks to which I have been able to build this project in a day. Using the same language both for the frontend and the backend lets you reuse types and interfaces. Finally, TypeScript's strong typing makes the project more scalable and maintainable.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+React and Express were my frameworks of choice because they are the tech stack of Zinio. Moreover, I used Next.js because it adds SEO enhancements and Server Side Rendering / Static Side Rendering on top of React. When building a blog, having a strong SEO is a must.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Performance improvements and optimizations
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Backend:
+- Some of the operations, like reading + parsing the JSON file and generating the search results, are very expensive. This is why **I have created my own caching system**. Therefore, if you search for the same word twice, the results will appear much faster the second time around. In a real-world app, I would consider using a dedicated caching system like Redis.
+- I used a specific library to implement **fuzzy search** and **weighted search** so that the results in the title take priority over the results in the article's body.
 
-## Learn More
+Frontend:
+- I used a complex **debouncing system** so that the **real-time search** can be much more efficient. Instead of making an API call every time the user types a letter, only 1 API call is performed in the end.
 
-To learn more about Next.js, take a look at the following resources:
+## Architecture and good practices
+- Domain-Driven Design
+- SOLID
+- Repository pattern
+- MVC pattern
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to use
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Backend: run `yarn dev` from the root folder of the project
+2. Frontend: run `yarn dev` from the root folder of the project
+3. Open the browser at [localhost:3000](localhost:3000)
