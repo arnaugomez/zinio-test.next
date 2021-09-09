@@ -6,7 +6,9 @@ import {
   Box,
   Text,
   Spacer,
+  Link,
 } from "@chakra-ui/layout";
+import NextLink from "next/link";
 import Head from "next/head";
 import React from "react";
 import { getArticles } from "../src/articles/data/articlesRepository";
@@ -46,6 +48,13 @@ export default function Home({ articles }: Props) {
           <Heading as="h2" size="lg" color="gray.600">
             Latest articles
           </Heading>
+          <Box background="gray.100" padding={4} marginY={4} borderRadius="md">
+            <Text>
+              <NextLink href="/articles/search" passHref>
+                <Link>🔎 &nbsp; Search articles</Link>
+              </NextLink>
+            </Text>
+          </Box>
           <Spacer height={24} />
           <VStack
             divider={<StackDivider borderColor="gray.200" />}
@@ -54,7 +63,11 @@ export default function Home({ articles }: Props) {
           >
             {articles.map(({ title, id, authors }) => (
               <Box key={id}>
-                <Heading as="h3" size="lg">{title}</Heading>
+                <Heading as="h3" size="lg">
+                  <NextLink href={`articles/detail/${id}`} passHref>
+                    <Link>{title}</Link>
+                  </NextLink>
+                </Heading>
                 <Text>{authors?.join(", ")}</Text>
               </Box>
             ))}

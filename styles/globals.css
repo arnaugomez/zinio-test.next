@@ -14,3 +14,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.article-body p,
+.article-body img{
+  margin-bottom: 1rem;
+}
+
+.article-body h2, .article-body h3 {
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  font-size: 1.6rem;
+}
