@@ -57,14 +57,14 @@ export default function ArticleDetail({
           <Spacer height={24} />
         </Container>
       </header>
-      <body>
+      <main>
         <Container>
           <article
             className="article-body"
             dangerouslySetInnerHTML={{ __html: body }}
           />
         </Container>
-      </body>
+      </main>
       <footer>
         <Spacer height={24} />
         <Container>

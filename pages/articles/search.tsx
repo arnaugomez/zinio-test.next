@@ -13,32 +13,40 @@ import { Article } from "../../src/articles/domain/Article";
 import NextLink from "next/link";
 import { Input, InputGroup, InputRightAddon } from "@chakra-ui/input";
 import { SearchIcon } from "@chakra-ui/icons";
-import { debounce, DebouncedFunc } from "lodash";
+import { debounce, DebouncedFunc, throttle } from "lodash";
 import { searchArticles } from "../../src/articles/data/articlesRepository";
 import { Spinner } from "@chakra-ui/spinner";
 
 export default function ArticleSearch() {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState<Article[]>([]);
-  const [cancellableFetch, setCancellableFetch] = useState<DebouncedFunc<
-    () => Promise<void>
-  > | null>(null);
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   async function fetchSearchResults() {
-    cancellableFetch?.cancel();
-    const cancellable = debounce(async () => {
-      setIsLoading(true);
-      const searchResults = await searchArticles(searchText);
-      setIsLoading(false);
-      setSearchResults(searchResults);
-    }, 500);
-    setCancellableFetch(cancellable);
+    setIsLoading(true);
+    const searchResults = await searchArticles(searchText);
+    setIsLoading(false);
+    setSearchResults(searchResults);
+  }
+
+  function debounceSearchResults() {
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+    const timeout = setTimeout(() => {
+      fetchSearchResults();
+    }, 800);
+    setDebounceTimeout(timeout);
   }
 
   useEffect(() => {
     if (searchText.length > 2) {
-      fetchSearchResults();
+      debounceSearchResults();
+    } else if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
     }
   }, [searchText, setSearchResults]);
 
@@ -56,7 +64,7 @@ export default function ArticleSearch() {
           <Spacer height={24} />
         </Container>
       </header>
-      <body>
+      <main>
         <Container>
           <Spacer height={24} />
           <InputGroup>
@@ -88,7 +96,7 @@ export default function ArticleSearch() {
             ))}
           </VStack>
         </Container>
-      </body>
+      </main>
       <footer>
         <Spacer height={20} />
       </footer>
