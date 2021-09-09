@@ -87,7 +87,7 @@ export default function ArticleSearch() {
             {searchResults.map(({ title, id, authors }) => (
               <Box key={id}>
                 <Heading as="h3" size="lg">
-                  <NextLink href={`articles/detail/${id}`} passHref>
+                  <NextLink href={`/articles/detail/${id}`} passHref>
                     <Link>{title}</Link>
                   </NextLink>
                 </Heading>
